@@ -1,6 +1,5 @@
 import { setFailed } from '@actions/core';
 import { context, getOctokit } from '@actions/github';
-
 import { createCoverageAnnotations } from './annotations/createCoverageAnnotations';
 import { createFailedTestsAnnotations } from './annotations/createFailedTestsAnnotations';
 import { formatCoverageAnnotations } from './format/annotations/formatCoverageAnnotations';
@@ -9,7 +8,6 @@ import { generateCommitReport } from './report/generateCommitReport';
 import { generatePRReport } from './report/generatePRReport';
 import { createReport } from './stages/createReport';
 import { getCoverage } from './stages/getCoverage';
-import { switchBranch } from './stages/switchBranch';
 import { JsonReport } from './typings/JsonReport';
 import { getOptions } from './typings/Options';
 import { createDataCollector } from './utils/DataCollector';
@@ -48,19 +46,20 @@ export const run = async (
         dataCollector.add(headCoverage);
     }
 
-    const [isSwitched] = await runStage(
-        'switchToBase',
-        dataCollector,
-        async (skip) => {
-            const baseBranch = context.payload.pull_request?.base.ref;
+    const isSwitched = false;
+    // const [isSwitched] = await runStage(
+    //     'switchToBase',
+    //     dataCollector,
+    //     async (skip) => {
+    //         const baseBranch = context.payload.pull_request?.base.ref;
 
-            if (!isInPR || !baseBranch) {
-                skip();
-            }
+    //         if (!isInPR || !baseBranch) {
+    //             skip();
+    //         }
 
-            await switchBranch(baseBranch);
-        }
-    );
+    //         await switchBranch(baseBranch);
+    //     }
+    // );
 
     const ignoreCollector = createDataCollector<JsonReport>();
 
