@@ -46,7 +46,7 @@ export const run = async (
         dataCollector.add(headCoverage);
     }
 
-    const isSwitched = false;
+    // const isSwitched = false;
     // const [isSwitched] = await runStage(
     //     'switchToBase',
     //     dataCollector,
@@ -61,24 +61,25 @@ export const run = async (
     //     }
     // );
 
-    const ignoreCollector = createDataCollector<JsonReport>();
+    // const ignoreCollector = createDataCollector<JsonReport>();
 
-    const [, baseCoverage] = await runStage(
-        'baseCoverage',
-        dataCollector,
-        async (skip) => {
-            if (!isSwitched) {
-                skip();
-            }
+    const baseCoverage = null;
+    // const [, baseCoverage] = await runStage(
+    //     'baseCoverage',
+    //     dataCollector,
+    //     async (skip) => {
+    //         if (!isSwitched) {
+    //             skip();
+    //         }
 
-            return await getCoverage(
-                ignoreCollector,
-                options,
-                true,
-                options.baseCoverageFile
-            );
-        }
-    );
+    //         return await getCoverage(
+    //             ignoreCollector,
+    //             options,
+    //             true,
+    //             options.baseCoverageFile
+    //         );
+    //     }
+    // );
 
     if (baseCoverage) {
         dataCollector.add(baseCoverage);
